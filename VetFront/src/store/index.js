@@ -1,5 +1,4 @@
 import { createStore } from "vuex";
-import httpService from "../services/http-service";
 
 const store = createStore({
   state: {
@@ -7,14 +6,14 @@ const store = createStore({
   },
   actions: {
     login(skip, data) {
-      httpService.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${data.token}`;
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.userId);
       localStorage.setItem("role", data.role);
     },
     logout() {
+      localStorage.setItem("userId", null);
       localStorage.setItem("role", null);
-      httpService.defaults.headers.common["Authorization"] = null;
+      localStorage.setItem("token", null);
     },
   },
 });

@@ -46,7 +46,8 @@ namespace VetApi.Services
                 var result = new LoginResult()
                 {
                     Token = tokenString,
-                    Role = user.Role.role_name
+                    Role = user.Role.role_name,
+                    UserId = user.id_user.ToString()
                 };
 
                 return result;

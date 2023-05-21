@@ -1,69 +1,40 @@
 <template>
-  <DataView :value="products" paginator :rows="5">
-    <template #list="slotProps">
-      <div class="col-12">
-        <div
-          class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
-        >
-          <img
-            class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-            :src="`https://primefaces.org/cdn/primevue/images/product/${slotProps.data.image}`"
-            :alt="slotProps.data.name"
-          />
-          <div
-            class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
-          >
-            <div
-              class="flex flex-column align-items-center sm:align-items-start gap-3"
-            >
-              <div class="text-2xl font-bold text-900">
-                {{ slotProps.data.name }}
-              </div>
-              <Rating
-                :modelValue="slotProps.data.rating"
-                readonly
-                :cancel="false"
-              ></Rating>
-              <div class="flex align-items-center gap-3">
-                <span class="flex align-items-center gap-2">
-                  <i class="pi pi-tag"></i>
-                  <span class="font-semibold">{{
-                    slotProps.data.category
-                  }}</span>
-                </span>
-                <Tag
-                  :value="slotProps.data.inventoryStatus"
-                  :severity="getSeverity(slotProps.data)"
-                ></Tag>
-              </div>
-            </div>
-            <div
-              class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
-            >
-              <span class="text-2xl font-semibold"
-                >${{ slotProps.data.price }}</span
-              >
-              <Button
-                icon="pi pi-shopping-cart"
-                rounded
-                :disabled="slotProps.data.inventoryStatus === 'OUTOFSTOCK'"
-              ></Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </template>
-  </DataView>
+  <DataTable :value="data" tableStyle="min-width: 50rem" paginator :rows="5">
+    <Column field="name" header="Animal Name"></Column>
+    <Column field="doctor" header="Doctor"></Column>
+    <Column field="date" header="Date"></Column>
+    <Column field="quantity" header="">
+      <template #body="slotProps">
+        <Button @click="remove(slotProps.data.visitId)">Remove</Button>
+        <Button @click="edit(slotProps.data.visitId)">Edit</Button>
+      </template></Column
+    >
+  </DataTable>
 </template>
 
 <script>
-import DataView from "primevue/dataview";
+import { get, post } from "../../services/http-service";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Button from "primevue/button";
 export default {
   data() {
-    return {};
+    return {
+      data: null,
+    };
   },
-  components: { DataView },
-  methods: {},
+  components: { Column, DataTable, Button },
+  methods: {
+    remove(visitId) {
+      console.log(visitId);
+    },
+    edit(visitId) {
+      console.log(visitId);
+    },
+  },
+  async created() {
+    this.data = await get(`appointments/${localStorage.getItem("userId")}`);
+  },
 };
 </script>
 

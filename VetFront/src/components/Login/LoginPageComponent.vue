@@ -25,7 +25,7 @@
 import store from "../../store/index";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
-import httpService from "../../services/http-service";
+import { get, post } from "../../services/http-service";
 
 export default {
   data() {
@@ -44,23 +44,14 @@ export default {
   },
   methods: {
     async login() {
-      const token = await httpService.post(
-        `login/${this.eMail}/${this.password}`
-      );
-      if (token.data) {
-        await store.dispatch("login", token.data);
+      const token = await post(`login/${this.eMail}/${this.password}`);
+      if (token) {
+        await store.dispatch("login", token);
       }
       this.$router.push("/");
     },
     async register() {
-      const token = await httpService.get(`test`);
-      console.log(token);
-    },
-  },
-
-  computed: {
-    isAuthenticated() {
-      return localStorage.authenticated;
+      const token = await get(`test`);
     },
   },
 };

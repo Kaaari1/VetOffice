@@ -1,23 +1,19 @@
-import axios from 'axios';
+import axios from "axios";
 
-export const createHttpService = function (config) {
-    
-    const newHttpService = axios.create(config);
-
-    newHttpService.resolveUrl = (url) => {
-        return `${newHttpService.defaults.baseURL}${url}`;
-    };
-
-    newHttpService.setBaseUrl = (baseUrl) => {
-        newHttpService.defaults.baseURL = baseUrl;
-    };
-
-    return newHttpService;
-}
-
-const httpService = createHttpService({
-    baseURL: "https://localhost:7002/",
-    withCredentials: false
+const http = axios.create({
+  baseURL: "https://localhost:7002/",
 });
 
-export default httpService;
+export const get = async (url, config = {}) => {
+  const token = localStorage.getItem("token");
+  http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  const response = await http.get(url, config);
+  return response.data;
+};
+
+export const post = async (url, data, config = {}) => {
+  const token = localStorage.getItem("token");
+  http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  const response = await http.post(url, data, config);
+  return response.data;
+};
