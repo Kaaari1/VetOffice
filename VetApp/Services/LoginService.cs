@@ -5,6 +5,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
+using VetApp.Controllers.Results;
 
 namespace VetApi.Services
 {
@@ -12,37 +13,46 @@ namespace VetApi.Services
     {
         private DbSet<Users_login> UsersLogin = new VetOfficeDbContext().Users_Logins;
 
-        public string Login(string email, string password)
+        public LoginResult Login(string email, string password)
         {
             var user = UsersLogin.Include(x => x.User).Include(x => x.Role).FirstOrDefault(x => x.email == email && x.password == password);
 
             if (user != null)
             {
+                var secretKey = "super-bardzo-sekretny-klucz-dla-tokenu";
+                var issuer = "your-issuer";
+                var audience = "your-audience";
+
                 var claims = new[]
                 {
                     new Claim("name", user.User.name),
-                    new Claim("role", user.Role.role_name),
+                    new Claim("roles", user.Role.role_name),
                 };
 
-                byte[] keyBytes = new byte[32];
-                using (var rng = RandomNumberGenerator.Create())
-                {
-                    rng.GetBytes(keyBytes);
-                }
-
-                var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super-bardzo-sekretny-klucz-dla-tokenu"));
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var expires = DateTime.UtcNow.AddHours(1); // Set the expiration time as desired
 
                 var token = new JwtSecurityToken(
+                    issuer: issuer,
+                    audience: audience,
                     claims: claims,
-                    signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
+                    expires: expires,
+                    signingCredentials: credentials
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-                return tokenString;
+                var result = new LoginResult()
+                {
+                    Token = tokenString,
+                    Role = user.Role.role_name
+                };
+
+                return result;
 
             }
-            return string.Empty;
+            return new LoginResult(); ;
         }
     }
 }
