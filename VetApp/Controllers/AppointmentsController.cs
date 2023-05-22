@@ -3,18 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using VetApp.Controllers.Results;
 using VetApp.Services;
-using VetOffice.Models;
 
 namespace VetApi.Controllers
 {
     [ApiController]
     public class AppointmentsController : ControllerBase
     {
-        private string secretKey = "super-bardzo-sekretny-klucz-dla-tokenu";
-        private string issuer = "your-issuer";
-        private string audience = "your-audience";
-
-
         [HttpGet]
         [Authorize(Roles = "User")]
         [Route("appointments/{userId}")]
