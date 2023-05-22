@@ -11,6 +11,8 @@ const Home = () => import("./components/UserMainPageComponent.vue");
 const Login = () => import("./components/Login/LoginPageComponent.vue");
 const Appointments = () =>
   import("./components/Appointment/AppointmentsComponent.vue");
+const Appointment = () =>
+  import("./components/Appointment/appointmentComponent.vue");
 
 const routes = [
   {
@@ -29,6 +31,26 @@ const routes = [
     path: "/yourAppointments",
     name: "Appointments",
     component: Appointments,
+    meta: { requiresAuth: true },
+  },
+  ,
+  {
+    path: "/yourPets",
+    name: "Pets",
+    component: Appointments,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/appointment/:visitId",
+    name: "appointment",
+    component: Appointment,
+    meta: { requiresAuth: true },
+  },
+  ,
+  {
+    path: "/newAppointment",
+    name: "newAppointment",
+    component: Appointment,
     meta: { requiresAuth: true },
   },
 ];

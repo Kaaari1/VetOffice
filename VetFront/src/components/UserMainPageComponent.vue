@@ -1,36 +1,35 @@
 <template>
-  <TabMenu
-    v-if="isUser"
-    :model="userItems"
-    @tab-change="handleTabChange"
-  ></TabMenu>
-  <TabMenu
-    v-if="isVet"
-    :model="vetItems"
-    @tab-change="handleTabChange"
-  ></TabMenu>
   <DataTable
     v-if="isAdmin"
-    :value="data"
+    :value="users"
     tableStyle="min-width: 50rem"
     paginator
     :rows="5"
   >
-    <Column field="User email" header="email"></Column>
-    <Column field="Name" header="name"></Column>
-    <Column field="Surname" header="surname"></Column>
-    <Column field="Role" header="role">
+    <Column field="email" header="User email"></Column>
+    <Column field="name" header="Name"></Column>
+    <Column field="surname" header="Surname"></Column>
+    <Column field="role" header="Role">
       <template #body="slotProps">
         <Dropdown
-          v-model="roleModel[slotProps.data.email]"
+          v-model="roleValue[slotProps.data.email]"
           :options="roles"
           optionLabel="roleName"
           optionValue="roleId"
-          placeholder="Role"
+          placeholder="role"
           class="w-full md:w-14rem"
         />
-        <Button @click="remove(slotProps.data.visitId)">Remove</Button>
-        <Button @click="edit(slotProps.data.visitId)">Edit</Button>
+        <Button
+          @click="
+            updateRole(
+              roleValue[slotProps.data.email],
+              roleUser[slotProps.data.email]
+            )
+          "
+          >Update role</Button
+        >
+        <!-- <Button @click="remove(slotProps.data.visitId)">Remove</Button>
+          <Button @click="edit(slotProps.data.visitId)">Edit</Button> -->
       </template></Column
     >
   </DataTable>
@@ -39,50 +38,22 @@
 <script>
 import Button from "primevue/button";
 import store from "../store/index";
-import TabMenu from "primevue/tabmenu";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Dropdown from "primevue/dropdown";
+import { get, post } from "../services/http-service";
 
 export default {
   data() {
     return {
-      userItems: [
-        {
-          label: "Logout",
-          to: "/login",
-        },
-        {
-          label: "Your Pets",
-          to: "/yourPets",
-        },
-        {
-          label: "Your appointments",
-          to: "/yourAppointments",
-        },
-      ],
-      vetItems: [
-        {
-          label: "Logout",
-          to: "/login",
-        },
-        {
-          label: "Day offs",
-          to: "/dayOffs",
-        },
-        {
-          label: "Appointments",
-          to: "/appointments",
-        },
-      ],
-      roleModel: [],
+      roleUser: [],
+      roleValue: [],
       users: [],
       roles: [],
     };
   },
   components: {
     Button,
-    TabMenu,
     DataTable,
     Column,
     Dropdown,
@@ -97,6 +68,9 @@ export default {
         this.logout();
       }
     },
+    async updateRole(roleId, userId) {
+      await post(`roles/${roleId}/${userId}`);
+    },
   },
   computed: {
     isAdmin() {
@@ -110,17 +84,15 @@ export default {
     },
   },
   async created() {
-    if (this.isAdmin()) {
-      //need to add api
-      this.roles = //...
-        this.users = //...
-          users.forEach((user) => {
-            this.roleModel[user.email] = {
-              name: user.roleId,
-              roleName: user.roleName,
-            };
-          });
+    if (this.isAdmin) {
+      this.roles = await get("roles");
+      this.users = await get("users");
+      this.users.forEach((user) => {
+        this.roleUser[user.email] = user.userId;
+        this.roleValue[user.email] = user.roleId;
+      });
     }
+    const xd = get(`has-access/1`);
   },
 };
 </script>

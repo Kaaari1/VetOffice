@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VetOffice.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
 using VetApp.Controllers.Results;
+using VetOffice.Models;
 
 namespace VetApi.Services
 {
@@ -27,6 +26,7 @@ namespace VetApi.Services
                 {
                     new Claim("name", user.User.name),
                     new Claim("roles", user.Role.role_name),
+                    new Claim("userId", user.User.id_user.ToString()),
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -47,7 +47,7 @@ namespace VetApi.Services
                 {
                     Token = tokenString,
                     Role = user.Role.role_name,
-                    UserId = user.id_user.ToString()
+                    UserId = user.id_user
                 };
 
                 return result;

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetOffice.Models;
 
@@ -10,9 +11,11 @@ using VetOffice.Models;
 namespace VetApp.Migrations
 {
     [DbContext(typeof(VetOfficeDbContext))]
-    partial class VetOfficeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230522205513_add-is_active_field_to_visits")]
+    partial class addis_active_field_to_visits
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");

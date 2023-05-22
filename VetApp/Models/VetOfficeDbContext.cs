@@ -119,7 +119,8 @@ namespace VetOffice.Models
                        id_animal = 1,
                        id_doctor = 1,
                        id_user = 3,
-                       date = DateTime.Parse("2022/12/02 12:00:00")
+                       date = DateTime.Parse("2022/12/02 12:00:00"),
+                       is_active = true,
                    });
                 db.SaveChanges();
             }
