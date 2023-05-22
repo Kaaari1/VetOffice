@@ -7,8 +7,9 @@ namespace VetOffice.Models
     {
         [Key]
         public int id_doctor { get; set; }
-        [Required]
-        [StringLength(100)]
-        public string nameands { get; set; }
+        public int id_user { get; set; }
+
+        [ForeignKey("id_user")]
+        public Users User { get; set; }
     }
 }

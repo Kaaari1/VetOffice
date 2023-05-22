@@ -14,9 +14,6 @@ namespace VetOffice.Models
         [StringLength(32)]
         public string password { get; set; }
         public int id_role { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string role { get; set; }
 
         [ForeignKey("id_user")]
         public Users User { get; set; }

@@ -72,8 +72,7 @@ namespace VetOffice.Models
                            id_user = 1,
                            email = "admin@gmail.com",
                            password = "Admin!23",
-                           id_role = 1,
-                           role = "Admin"
+                           id_role = 1
                        });
 
 
@@ -83,8 +82,7 @@ namespace VetOffice.Models
                            id_user = 2,
                            email = "meganfoc@gmail.com",
                            password = "Meggi88",
-                           id_role = 3,
-                           role = "Vet"
+                           id_role = 3
                        });
 
                 db.Add(
@@ -93,8 +91,7 @@ namespace VetOffice.Models
                            id_user = 3,
                            email = "trevorfoot@gmail.com",
                            password = "Trev987",
-                           id_role = 2,
-                           role = "User"
+                           id_role = 2
                        });
 
 
@@ -103,7 +100,7 @@ namespace VetOffice.Models
                        new Doctors()
                        {
                            id_doctor = 1,
-                           nameands = "Megan Foc"
+                           id_user = 2
                        });
 
                 db.Add(
@@ -111,7 +108,7 @@ namespace VetOffice.Models
                        {
                            id_animal = 1,
                            name_a = "Loki",
-                           age = "2",
+                           dateofbirth = DateTime.Parse("2020/12/10"),
                            id_user = 3
                        });
 
@@ -120,12 +117,8 @@ namespace VetOffice.Models
                    {
                        id_visit = 1,
                        id_animal = 1,
-                       name_a = "Loki",
                        id_doctor = 1,
-                       nameands = "Megan Foc",
                        id_user = 3,
-                       name = "Trevor",
-                       surname = "Foot",
                        date = DateTime.Parse("2022/12/02 12:00:00")
                    });
                 db.SaveChanges();

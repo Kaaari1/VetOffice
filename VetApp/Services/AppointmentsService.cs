@@ -18,7 +18,7 @@ namespace VetApp.Services
                 result.Add(new UserAppointmentsResult()
                 {
                     Date = visit.date,
-                    Doctor = visit.Doctor.nameands,
+                    Doctor = visit.User.name + visit.User.surname,
                     Name = visit.Animal.name_a,
                     VisitId = visit.id_visit
 
