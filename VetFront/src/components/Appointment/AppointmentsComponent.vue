@@ -15,6 +15,9 @@
       </template></Column
     >
   </DataTable>
+  <div>
+    <Button @click="addNewAppointment">Add new appointment</Button>
+  </div>
 </template>
 
 <script>
@@ -41,9 +44,9 @@ export default {
         name: "appointment",
         params: { visitId: visitId },
       });
-      // post(
-      //   `appointments/${visitId}/${localStorage.userId}/${this.modelValue[visitId]}`
-      // );
+    },
+    addNewAppointment() {
+      this.$router.push("/addNewAppointment");
     },
   },
   async created() {

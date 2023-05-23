@@ -26,7 +26,7 @@
         :disabled="isPetDocAndDateSelected"
       />
       <div>
-        <Button @click="updateAppointment">Update appointment</Button>
+        <Button @click="addNewAppointment">Add new appointment</Button>
       </div>
     </div>
   </div>
@@ -56,9 +56,9 @@ export default {
     Calendar,
   },
   methods: {
-    async updateAppointment() {
+    async addNewAppointment() {
       await post(
-        `updateAppointment/${this.pet}/${this.doctor}/${this.dateTime}/${this.date}/${this.$route.params.visitId}`
+        `addNewAppointment/${this.pet}/${this.doctor}/${this.dateTime}/${this.date}`
       );
       this.$router.push("/yourAppointments");
     },
@@ -73,6 +73,7 @@ export default {
     },
   },
   watch: {
+    // whenever question changes, this function will run
     doctor() {
       this.dateTime = null;
     },
@@ -81,21 +82,6 @@ export default {
         this.dateTimes = await get(`doctor/${doctor}`);
       }
     },
-  },
-  async created() {
-    if (this.$route.params.visitId) {
-      const hasAccess = await get(`has-access/${this.$route.params.visitId}`);
-      const appointment = await get(
-        `appointment/${this.$route.params.visitId}`
-      );
-      this.pet = appointment.petId;
-      this.doctor = appointment.doctorId;
-      this.dateTime = appointment.dateTime;
-      this.date = appointment.date;
-      if (!hasAccess) {
-        this.$router.push("/");
-      }
-    }
   },
 };
 </script>

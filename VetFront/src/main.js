@@ -12,7 +12,11 @@ const Login = () => import("./components/Login/LoginPageComponent.vue");
 const Appointments = () =>
   import("./components/Appointment/AppointmentsComponent.vue");
 const Appointment = () =>
-  import("./components/Appointment/appointmentComponent.vue");
+  import("./components/Appointment/AppointmentComponent.vue");
+const YourPets = () => import("./components/Pets/YourPetsComponent.vue");
+const AddPet = () => import("./components/Pets/AddPetComponent.vue");
+const AddAppointment = () =>
+  import("./components/Appointment/AddAppointmentComponent.vue");
 
 const routes = [
   {
@@ -36,8 +40,20 @@ const routes = [
   ,
   {
     path: "/yourPets",
-    name: "Pets",
-    component: Appointments,
+    name: "yourPets",
+    component: YourPets,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/addNewPet",
+    name: "addNewPet",
+    component: AddPet,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/addNewAppointment",
+    name: "addNewAppointment",
+    component: AddAppointment,
     meta: { requiresAuth: true },
   },
   {

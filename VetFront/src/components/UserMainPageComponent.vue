@@ -92,7 +92,6 @@ export default {
         this.roleValue[user.email] = user.roleId;
       });
     }
-    const xd = get(`has-access/1`);
   },
 };
 </script>

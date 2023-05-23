@@ -11,9 +11,7 @@ const store = createStore({
       localStorage.setItem("role", data.role);
     },
     logout() {
-      localStorage.setItem("userId", null);
-      localStorage.setItem("role", null);
-      localStorage.setItem("token", null);
+      localStorage.clear();
     },
   },
 });

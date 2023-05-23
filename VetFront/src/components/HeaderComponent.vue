@@ -71,7 +71,7 @@ export default {
     },
 
     handleTabChange(event) {
-      if ((event.index = 0)) {
+      if (event.index == 0) {
         this.logout();
       }
     },
@@ -85,6 +85,14 @@ export default {
     },
     isUser() {
       return localStorage.role === "User";
+    },
+  },
+  watch: {
+    localStorage: {
+      handler(newValue, oldValue) {
+        console.log(newValue);
+      },
+      deep: true,
     },
   },
 };
