@@ -7,7 +7,7 @@ using VetApp.Services;
 namespace VetApi.Controllers
 {
     [ApiController]
-    public class AppointmentsController : ControllerBase
+    public class AppointmentsController : AuthController
     {
         [HttpGet]
         [Authorize(Roles = "User")]
@@ -24,29 +24,18 @@ namespace VetApi.Controllers
         [Route("has-access/{visitId}")]
         public bool HasAccess(int visitId)
         {
-            string authorizationHeader = HttpContext.Request.Headers["Authorization"];
+            int userId = GetUserIdFromToken();
 
-            if (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith("Bearer "))
+            if (userId > 0)
             {
-                string token = authorizationHeader.Substring("Bearer ".Length);
+                var appointmentsService = new AppointmentsService();
+                return appointmentsService.HasAccess(userId, visitId);
 
-                var handler = new JwtSecurityTokenHandler();
-                var jwtToken = handler.ReadJwtToken(token);
-
-                string? customValue = jwtToken.Claims.FirstOrDefault(c => c.Type == "userId")?.Value;
-                if (customValue != null)
-                {
-                    int.TryParse(customValue, out var userId);
-                    if (userId > 0)
-                    {
-                        var appointmentsService = new AppointmentsService();
-                        return appointmentsService.HasAccess(userId, visitId);
-
-                    }
-                }
             }
             return false;
+
         }
+
 
         [HttpPost]
         [Authorize(Roles = "User")]
