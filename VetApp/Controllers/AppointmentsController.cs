@@ -7,7 +7,7 @@ using VetApp.Services;
 namespace VetApi.Controllers
 {
     [ApiController]
-    public class AppointmentsController : AuthController
+    public class AppointmentsController : ControllerBase
     {
         [HttpGet]
         [Authorize(Roles = "User")]
@@ -24,7 +24,8 @@ namespace VetApi.Controllers
         [Route("has-access/{visitId}")]
         public bool HasAccess(int visitId)
         {
-            int userId = GetUserIdFromToken();
+            var authService = new AuthService();
+            int userId = authService.GetUserIdFromToken(HttpContext);
 
             if (userId > 0)
             {

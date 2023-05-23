@@ -1,16 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 
-namespace VetApi.Controllers
+namespace VetApp.Services
 {
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthService
     {
-        [HttpGet]
-        [Route("auth")]
-        public int GetUserIdFromToken()
+        public int GetUserIdFromToken(HttpContext httpContext)
         {
-            string authorizationHeader = HttpContext.Request.Headers["Authorization"];
+            string authorizationHeader = httpContext.Request.Headers["Authorization"];
 
             if (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith("Bearer "))
             {
