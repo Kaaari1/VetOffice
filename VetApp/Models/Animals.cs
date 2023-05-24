@@ -10,6 +10,9 @@ namespace VetOffice.Models
         [Required]
         [StringLength(50)]
         public string name_a { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string petType { get; set; }
         public DateTime dateofbirth { get; set; }
         public int id_user { get; set; }
 

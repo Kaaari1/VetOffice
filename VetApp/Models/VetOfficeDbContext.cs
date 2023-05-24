@@ -107,7 +107,8 @@ namespace VetOffice.Models
                        new Animals()
                        {
                            id_animal = 1,
-                           name_a = "Loki",
+                           name_a = "Bambi",
+                           petType = "Dog",
                            dateofbirth = DateTime.Parse("2020/12/10"),
                            id_user = 3
                        });
