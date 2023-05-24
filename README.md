@@ -1,8 +1,8 @@
 # Projekt na labolatoria Programowanie aplikacji back-endowych - Gabinet Weterynaryjny
  
-                                      II rok studiów niestacjonarnych kierunek Informatyka Stosowana 
-                                       Autorzy: Karolina Jaskowska, Kamil Doniec oraz Bruno Herdecki
-                                                          Grupa: lab2/2/PROG
+                                 II rok studiów niestacjonarnych kierunek Informatyka Stosowana 
+                                  Autorzy: Karolina Jaskowska, Kamil Doniec oraz Bruno Herdecki
+                                                      Grupa: lab2/2/PROG
                                                           
    Encje oraz ich związki:
    ![image](https://github.com/Kaaari1/VetOffice/assets/91775522/56a15f25-f904-489b-bc3a-247dcccdd45d)
