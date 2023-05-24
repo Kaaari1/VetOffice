@@ -1,13 +1,13 @@
 <template>
   <DataTable
-    :value="appointments"
+    :value="pets"
     tableStyle="min-width: 50rem"
     paginator
     :rows="5"
   >
     <Column field="name" header="Animal Name"></Column>
-    <Column field="petType" header="Pet type"></Column>
-    <Column field="date" header="Date of birth"> </Column>
+    <Column field="animalType" header="Pet type"></Column>
+    <Column field="birthDate" header="Date of birth"> </Column>
   </DataTable>
   <Button @click="addNewPet">Add new pet</Button>
 </template>
@@ -33,7 +33,8 @@ export default {
   },
   components: { Column, DataTable, Button, Calendar },
   async created() {
-    this.pets = await get(`pets`);
+    this.pets = await get(`animals`);
+    console.log(this.pets);
   },
 };
 </script>

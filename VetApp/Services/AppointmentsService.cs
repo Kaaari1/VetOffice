@@ -16,11 +16,32 @@ namespace VetApp.Services
 
             foreach (var visit in visits)
             {
+                var doc = DbContext.Doctor.Include(x => x.User).FirstOrDefault(x => x.id_doctor == visit.id_doctor);
+
                 result.Add(new UserAppointmentsResult()
                 {
                     Date = visit.date,
-                    Doctor = visit.User.name + " " + visit.User.surname,
-                    Name = visit.Animal.name_a,
+                    Doctor = $"{doc.User.name} {doc.User.surname}",
+                    AnimalName = visit.Animal.name_a,
+                    VisitId = visit.id_visit
+
+                });
+            }
+            return result;
+        }
+        public List<VetAppointmentsResult> GetAppointmentsByVetId(int userId)
+        {
+            int vetId = DbContext.Doctor.FirstOrDefault(x => x.id_user == userId).id_doctor;
+            var visits = Appointemsts.Where(x => x.id_doctor == vetId && x.is_active).Include(x => x.Doctor).Include(x => x.Animal).Include(x => x.User).ToList();
+            var result = new List<VetAppointmentsResult>();
+
+            foreach (var visit in visits)
+            {
+                result.Add(new VetAppointmentsResult()
+                {
+                    Date = visit.date,
+                    Name = visit.User.name + " " + visit.User.surname,
+                    AnimalName = visit.Animal.name_a,
                     VisitId = visit.id_visit
 
                 });

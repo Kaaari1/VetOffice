@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using VetApp.Controllers.Results;
 using VetApp.Services;
@@ -11,11 +12,34 @@ namespace VetApi.Controllers
     {
         [HttpGet]
         [Authorize(Roles = "User")]
-        [Route("appointments/{userId}")]
-        public List<UserAppointmentsResult> GetAppointmentsByUserId(int userId)
+        [Route("appointments")]
+        public List<UserAppointmentsResult> GetAppointmentsByUserId()
         {
-            var appointmentsService = new AppointmentsService();
-            var result = appointmentsService.GetAppointmentsByUserId(userId);
+            var authService = new AuthService();
+            int userId = authService.GetUserIdFromToken(HttpContext);
+            List<UserAppointmentsResult> result = new List<UserAppointmentsResult>();
+            if (userId > 0)
+            {
+                var appointmentsService = new AppointmentsService();
+                result = appointmentsService.GetAppointmentsByUserId(userId);
+            }
+            return result;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Vet")]
+        [Route("appointments/vet")]
+        public List<VetAppointmentsResult> GetAppointmentsByVetId()
+        {
+            var authService = new AuthService();
+            int userId = authService.GetUserIdFromToken(HttpContext);
+            List<VetAppointmentsResult> result = new List<VetAppointmentsResult>();
+            if (userId > 0)
+            {
+                var appointmentsService = new AppointmentsService();
+                result = appointmentsService.GetAppointmentsByVetId(userId);
+            }
+
             return result;
         }
 

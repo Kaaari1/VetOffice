@@ -17,6 +17,7 @@ const YourPets = () => import("./components/Pets/YourPetsComponent.vue");
 const AddPet = () => import("./components/Pets/AddPetComponent.vue");
 const AddAppointment = () =>
   import("./components/Appointment/AddAppointmentComponent.vue");
+const VetSettings = () => import("./components/Vet/VetSettings.vue");
 
 const routes = [
   {
@@ -67,6 +68,12 @@ const routes = [
     path: "/newAppointment",
     name: "newAppointment",
     component: Appointment,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/vetSettings",
+    name: "vetSettings",
+    component: VetSettings,
     meta: { requiresAuth: true },
   },
 ];

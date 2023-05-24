@@ -43,12 +43,12 @@ export default {
           to: "/login",
         },
         {
-          label: "Day offs",
-          to: "/dayOffs",
+          label: "Vet Settings",
+          to: "/vetSettings",
         },
         {
-          label: "Appointments",
-          to: "/appointments",
+          label: "Your appointments",
+          to: "/yourAppointments",
         },
       ],
       adminItems: [

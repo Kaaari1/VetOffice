@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using VetApp.Controllers.Results;
+﻿using VetApp.Controllers.Results;
 using VetOffice.Models;
 
 namespace VetApp.Services
@@ -11,15 +10,17 @@ namespace VetApp.Services
         public List<GetPetsResult> Get()
         {
             List<GetPetsResult> result = new List<GetPetsResult>();
-            var pets = dbContext.Animal.Include(x => x.User).ToList();
+            var pets = dbContext.Animal.ToList();
 
             foreach (var pet in pets)
             {
                 result.Add(new GetPetsResult()
                 {
-                    Name = pet.User.name,
+                    Name = pet.name_a,
                     PetId = pet.id_animal,
-                 
+                    AnimalType = pet.petType,
+                    BirthDate = pet.dateofbirth
+
                 });
             }
             return result;

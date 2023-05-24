@@ -5,8 +5,9 @@
     paginator
     :rows="5"
   >
-    <Column field="name" header="Animal Name"></Column>
-    <Column field="doctor" header="Doctor"></Column>
+    <Column field="animalName" header="Animal Name"></Column>
+    <Column v-if="isVet" field="name" header="Owner name"></Column>
+    <Column v-if="isUser" field="doctor" header="Doctor"></Column>
     <Column field="date" header="Date"> </Column>
     <Column field="quantity" header="">
       <template #body="slotProps">
@@ -16,7 +17,7 @@
     >
   </DataTable>
   <div>
-    <Button @click="addNewAppointment">Add new appointment</Button>
+    <Button v-if="isUser" @click="addNewAppointment">Add new appointment</Button>
   </div>
 </template>
 
@@ -49,10 +50,23 @@ export default {
       this.$router.push("/addNewAppointment");
     },
   },
+  computed: {
+    isAdmin() {
+      return localStorage.role === "Admin";
+    },
+    isVet() {
+      return localStorage.role === "Vet";
+    },
+    isUser() {
+      return localStorage.role === "User";
+    },
+  },
   async created() {
-    this.appointments = await get(
-      `appointments/${localStorage.getItem("userId")}`
-    );
+    if (localStorage.getItem("role") === "Vet") {
+      this.appointments = await get(`appointments/vet`);
+    } else {
+      this.appointments = await get(`appointments`);
+    }
     this.appointments.forEach((appointment) => {
       this.modelValue[appointment.visitId] = appointment.date;
     });
