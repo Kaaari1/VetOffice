@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+
 namespace VetOffice.Models
 {
     public class VetOfficeDbContext : DbContext
@@ -100,7 +102,9 @@ namespace VetOffice.Models
                        new Doctors()
                        {
                            id_doctor = 1,
-                           id_user = 2
+                           id_user = 2,
+                           work_hours_from = TimeSpan.Parse("08:00"),
+                           work_hours_to = TimeSpan.Parse("16:00")
                        });
 
                 db.Add(
@@ -122,6 +126,14 @@ namespace VetOffice.Models
                        id_user = 3,
                        date = DateTime.Parse("2022/12/02 12:00:00"),
                        is_active = true,
+                   });
+                db.Add(
+                   new Presence()
+                   {
+                       dayoff_id = 1,
+                       id_doctor = 1,
+                       is_active = true,
+                       nworking_days = DateTime.Parse("2023/05/02"),
                    });
                 db.SaveChanges();
             }
