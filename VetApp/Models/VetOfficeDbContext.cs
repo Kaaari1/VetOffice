@@ -69,6 +69,22 @@ namespace VetOffice.Models
                            phone_number = "333444555"
                        });
                 db.Add(
+                       new Users()
+                       {
+                           id_user = 4,
+                           name = "Mariusz",
+                           surname = "Alfred",
+                           phone_number = "851497562"
+                       });
+                db.Add(
+                       new Users()
+                       {
+                           id_user = 5,
+                           name = "Fredryk",
+                           surname = "Mustang",
+                           phone_number = "745986123"
+                       });
+                db.Add(
                        new Users_login()
                        {
                            id_user = 1,
@@ -95,8 +111,22 @@ namespace VetOffice.Models
                            password = "Trev987",
                            id_role = 2
                        });
-
-
+                db.Add(
+                       new Users_login()
+                       {
+                           id_user = 4,
+                           email = "mariuszalfred@gmail.com",
+                           password = "Alf584",
+                           id_role = 3
+                       });
+                db.Add(
+                       new Users_login()
+                       {
+                           id_user = 5,
+                           email = "fredrykm@gmail.com",
+                           password = "Mustang1",
+                           id_role = 2
+                       });
 
                 db.Add(
                        new Doctors()
@@ -107,7 +137,15 @@ namespace VetOffice.Models
                            work_hours_to = TimeSpan.Parse("16:00"),
                            is_active = true
                        });
-
+                db.Add(
+                       new Doctors()
+                       {
+                           id_doctor = 2,
+                           id_user = 4,
+                           work_hours_from = TimeSpan.Parse("08:00"),
+                           work_hours_to = TimeSpan.Parse("16:00"),
+                           is_active = true
+                       });
                 db.Add(
                        new Animals()
                        {
@@ -117,7 +155,24 @@ namespace VetOffice.Models
                            dateofbirth = DateTime.Parse("2020/12/10"),
                            id_user = 3
                        });
-
+                db.Add(
+                      new Animals()
+                      {
+                          id_animal = 2,
+                          name_a = "Bruno",
+                          petType = "Cat",
+                          dateofbirth = DateTime.Parse("2021/06/06"),
+                          id_user = 3
+                      });
+                db.Add(
+                      new Animals()
+                      {
+                          id_animal = 3,
+                          name_a = "Tytus",
+                          petType = "Turtle",
+                          dateofbirth = DateTime.Parse("2019/08/30"),
+                          id_user = 5
+                      });
                 db.Add(
                    new Visits()
                    {
@@ -126,6 +181,26 @@ namespace VetOffice.Models
                        id_doctor = 1,
                        id_user = 3,
                        date = DateTime.Parse("2022/12/02 12:00:00"),
+                       is_active = true,
+                   });
+                db.Add(
+                   new Visits()
+                   {
+                       id_visit = 2,
+                       id_animal = 2,
+                       id_doctor = 2,
+                       id_user = 3,
+                       date = DateTime.Parse("2023/05/29 14:00:00"),
+                       is_active = true,
+                   });
+                db.Add(
+                   new Visits()
+                   {
+                       id_visit = 3,
+                       id_animal = 3,
+                       id_doctor = 2,
+                       id_user = 5,
+                       date = DateTime.Parse("2023/05/30 10:00:00"),
                        is_active = true,
                    });
                 db.Add(
