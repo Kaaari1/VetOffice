@@ -6,11 +6,11 @@ using VetApp.Services;
 namespace VetApi.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class RolesController : ControllerBase
     {
         [HttpGet]
         [Route("roles")]
-        [Authorize(Roles = "Admin")]
         public List<RolesResult> Get()
         {
             var rolesService = new RolesService();

@@ -20,6 +20,7 @@ namespace VetApi.Controllers
 
         [HttpGet]
         [Route("doctors")]
+        [Authorize(Roles = "Vet,User")]
         public List<DoctorsResult> GetDoctors()
         {
             var doctorsService = new DoctorsService();
@@ -27,6 +28,7 @@ namespace VetApi.Controllers
             return result;
         }
 
+        [Authorize(Roles = "Vet,User")]
         [HttpGet]
         [Route("doctor/hours/{doctorId}/{date}")]
         public List<string> GetDoctorHours(int doctorId, DateTime date)
