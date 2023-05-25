@@ -18,6 +18,7 @@
       <InputText type="text" v-model="registerName" placeholder="Name" />
       <InputText type="text" v-model="registerSurname" placeholder="Surname" />
       <InputNumber
+        :useGrouping="false"
         v-model="registerPhone"
         placeholder="Phone number"
         :min="100000000"
@@ -64,7 +65,9 @@ export default {
       }
     },
     async register() {
-      const token = await post(`register/${this.eMail}/${this.password}`);
+      const token = await post(
+        `register/${this.registerMail}/${this.registerPassword}/${this.registerName}/${this.registerSurname}/${this.registerPhone}`
+      );
       if (token.token) {
         await store.dispatch("login", token);
         this.$router.push("/");

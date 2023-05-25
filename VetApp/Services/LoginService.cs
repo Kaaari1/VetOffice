@@ -64,9 +64,10 @@ namespace VetApi.Services
             if (reg == null)
             {
                 var user = new Users() { name = name, surname = surname, phone_number = phoneNumber };
-                dbContext.Add(user);
+                dbContext.User.Add(user);
                 dbContext.SaveChanges();
                 var userlogin = new Users_login() { email = email, password = password, id_user = user.id_user, id_role = 2 };
+                dbContext.Users_Logins.Add(userlogin);
                 dbContext.SaveChanges();
             }
             return Login(email, password);

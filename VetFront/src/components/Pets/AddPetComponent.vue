@@ -38,7 +38,7 @@ export default {
   methods: {
     async addNewPet() {
       await post(
-        `addNewPet/${this.petName}/${this.petType}/${this.dateOfBirth}`
+        `animal/add/${this.petName}/${this.petType}/${this.dateOfBirth}`
       );
       this.$router.push("/yourPets");
     },

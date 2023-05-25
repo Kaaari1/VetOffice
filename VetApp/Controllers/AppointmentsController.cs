@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using VetApp.Controllers.Results;
 using VetApp.Services;
-using VetOffice.Models;
 
 namespace VetApi.Controllers
 {
@@ -62,6 +59,7 @@ namespace VetApi.Controllers
 
         }
         [HttpGet]
+        [Authorize(Roles = "User,Vet")]
         [Route("appointment/{visitId}")]
         public GetAppointmentResult GetAppointment(int visitId)
         {
@@ -87,7 +85,7 @@ namespace VetApi.Controllers
 
 
         [HttpPost]
-
+        [Authorize(Roles = "Vet")]
         [Route("addAppointment/{animalId}/{doctorId}/{date}/{time}")]
         public void AddAppointment(int animalId, int doctorId, DateTime date, string time)
         {

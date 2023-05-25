@@ -1,5 +1,4 @@
 <template>
-  <HeaderComponent />
   <div style="text-align: center">
     <h2>Appointment data</h2>
     <div style="display: inline-grid">
@@ -41,7 +40,6 @@ import Button from "primevue/button";
 import { get, post } from "../../services/http-service";
 import Dropdown from "primevue/dropdown";
 import Calendar from "primevue/calendar";
-import HeaderComponent from "./components/HeaderComponent.vue";
 
 export default {
   data() {
@@ -60,7 +58,6 @@ export default {
     Button,
     Dropdown,
     Calendar,
-    HeaderComponent,
   },
   methods: {
     async addAppointment() {
