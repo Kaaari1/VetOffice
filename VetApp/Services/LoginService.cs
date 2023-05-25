@@ -11,6 +11,7 @@ namespace VetApi.Services
     public class LoginService
     {
         private DbSet<Users_login> UsersLogin = new VetOfficeDbContext().Users_Logins;
+        private readonly VetOfficeDbContext dbContext = new VetOfficeDbContext();
 
         public LoginResult Login(string email, string password)
         {
@@ -49,11 +50,26 @@ namespace VetApi.Services
                     Role = user.Role.role_name,
                     UserId = user.id_user
                 };
-
                 return result;
-
             }
             return new LoginResult(); ;
+        }
+
+
+
+        public LoginResult Register(string email, string password, string surname, string phoneNumber, string name)
+        {
+            var reg = UsersLogin.Include(x => x.User).Include(x => x.Role).FirstOrDefault(x => x.email == email);
+
+            if (reg == null)
+            {
+                var user = new Users() { name = name, surname = surname, phone_number = phoneNumber };
+                dbContext.Add(user);
+                dbContext.SaveChanges();
+                var userlogin = new Users_login() { email = email, password = password, id_user = user.id_user, id_role = 2 };
+                dbContext.SaveChanges();
+            }
+            return Login(email, password);
         }
     }
 }

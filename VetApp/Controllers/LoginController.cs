@@ -16,5 +16,14 @@ namespace VetApi.Controllers
             var result = loginService.Login(login, password);
             return result;
         }
+
+        [HttpPost]
+        [Route("register/{email}/{password}/{name}/{surname}/{phoneNumber}")]
+        public LoginResult Register(string email, string password,string surname, string phoneNumber, string name)
+        {
+            var loginService = new LoginService();
+            var result = loginService.Register(email,password,surname,phoneNumber, name);
+            return (LoginResult)result;
+        }
     }
 }
