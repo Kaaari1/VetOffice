@@ -24,6 +24,6 @@ Użytkownicy:
 
 Opis działania aplikacji:
 
-Aplikacja pozwala użytkownikowi rejestrować, przeglądać, odwoływać wizyty u weterynarzy dla swoich zwięrząt. Klient może wchodzić w szczegóły wizyt, zwierząt. Doktor może przeglądać zarejestrowane u niego wizyty oraz szczegóły pacjentów. Doktor może wpisywać dni wolne w swój grafik oraz uzupełniać obecność. 
+Aplikacja pozwala użytkownikowi rejestrować, przeglądać, odwoływać wizyty u weterynarzy dla swoich zwięrząt. Klient może wchodzić w szczegóły wizyt, zwierząt. Doktor może przeglądać zarejestrowane u niego wizyty. Doktor może wpisywać dni wolne w swój grafik oraz uzupełniać obecność. 
 
-Z poziomu Administratora możliwe jest dodawanie oraz edytowanie użytkowników (w szczególności nowo zatrudnionych lekarzy), zwierząt oraz wizyt. 
+Z poziomu Administratora możliwa jest zmiana ról użytkowników. 
