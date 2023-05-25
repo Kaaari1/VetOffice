@@ -174,6 +174,24 @@ namespace VetOffice.Models
                           id_user = 5
                       });
                 db.Add(
+                      new Animals()
+                      {
+                          id_animal = 4,
+                          name_a = "Andrzej",
+                          petType = "Triceratops",
+                          dateofbirth = DateTime.Parse("2009/01/02"),
+                          id_user = 3
+                      });
+                db.Add(
+                      new Animals()
+                      {
+                          id_animal = 5,
+                          name_a = "Alfred",
+                          petType = "Mrufka",
+                          dateofbirth = DateTime.Parse("2020/02/20"),
+                          id_user = 3
+                      });
+                db.Add(
                    new Visits()
                    {
                        id_visit = 1,
