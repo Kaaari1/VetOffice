@@ -70,5 +70,41 @@ namespace VetApi.Controllers
             var appointmentsService = new AppointmentsService();
             appointmentsService.UpdateVisitDateTime(dateTime, visitId, userId);
         }
+
+
+        [HttpPost]
+       
+        [Route("appointments/{animalId}/{doctorId}/{date}/{time}")]
+        public void AddAppointment(int animalId, int doctorId, DateTime date, string time)
+        {
+            var authService = new AuthService();
+            int userId = authService.GetUserIdFromToken(HttpContext);
+
+            if (userId > 0)
+            {
+                var appointmentsService = new AppointmentsService();
+                appointmentsService.AddAppointment(userId, animalId, doctorId, date, time);
+
+            }
+            
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        [Route("appointments/{visitId}")]
+        public void RemoveAppointment(int visitId)
+        {
+            var authService = new AuthService();
+            int userId = authService.GetUserIdFromToken(HttpContext);
+
+            if (userId > 0)
+            {
+                var appointmentsService = new AppointmentsService();
+                appointmentsService.RemoveAppointment(visitId, userId);
+
+            }
+            
+        }
     }
 }

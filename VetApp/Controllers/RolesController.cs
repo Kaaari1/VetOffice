@@ -19,7 +19,6 @@ namespace VetApi.Controllers
         }
         [HttpPost]
         [Route("roles/{roleId}/{userId}")]
-        [Authorize(Roles = "Admin")]
         public void Update(int roleId, int userId)
         {
             var rolesService = new RolesService();

@@ -104,7 +104,8 @@ namespace VetOffice.Models
                            id_doctor = 1,
                            id_user = 2,
                            work_hours_from = TimeSpan.Parse("08:00"),
-                           work_hours_to = TimeSpan.Parse("16:00")
+                           work_hours_to = TimeSpan.Parse("16:00"),
+                           is_active = true
                        });
 
                 db.Add(

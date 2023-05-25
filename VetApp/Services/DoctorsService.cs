@@ -11,7 +11,7 @@ namespace VetApp.Services
         public List<DoctorsResult> Get()
         {
             List<DoctorsResult> result = new List<DoctorsResult>();
-            var doctors = dbContext.Doctor.Include(x => x.User).ToList();
+            var doctors = dbContext.Doctor.Where(x => x.is_active).Include(x => x.User).ToList();
 
             foreach (var doctor in doctors)
             {

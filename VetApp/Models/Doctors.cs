@@ -13,6 +13,8 @@ namespace VetOffice.Models
         [Required]
         public TimeSpan work_hours_to { get; set; }
 
+        public bool is_active { get; set; } 
+
         [ForeignKey("id_user")]
         public Users User { get; set; }
     }

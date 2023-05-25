@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using VetApp.Controllers.Results;
+using VetApp.Migrations;
 using VetOffice.Models;
 
 namespace VetApp.Services
@@ -65,6 +67,29 @@ namespace VetApp.Services
             var asd = DbContext.Visit.Include(x => x.Doctor)
                 .Select(x => x.id_visit == visitId && x.is_active && (x.Doctor.id_user == userId || x.id_user == userId)).FirstOrDefault();
             return asd;
+        }
+
+        public void AddAppointment(int userId, int animalId, int doctorId, DateTime date, string time)
+        {
+            var timespan = TimeSpan.Parse(time);
+            var visit = new Visits()
+            {
+                id_animal = animalId,
+                id_doctor = doctorId,
+                id_user = userId,
+                date = date.Date + timespan,
+                is_active = true
+            };
+            DbContext.Visit.Add(visit);
+            DbContext.SaveChanges();
+        }
+
+        public void RemoveAppointment(int visitId, int userId)
+        {
+            var visit = DbContext.Visit.Include(x => x.Doctor)
+                .FirstOrDefault(x => x.id_visit == visitId && x.is_active && (x.Doctor.id_user == userId || x.id_user == userId));
+            visit.is_active = false;
+            DbContext.SaveChanges();
         }
     }
 }
