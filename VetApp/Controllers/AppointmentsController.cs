@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using VetApp.Controllers.Results;
 using VetApp.Services;
+using VetOffice.Models;
 
 namespace VetApi.Controllers
 {
@@ -60,7 +61,14 @@ namespace VetApi.Controllers
             return false;
 
         }
-
+        [HttpGet]
+        [Route("appointments/{visitId}")]
+        public GetAppointmentResult GetAppointment(int visitId)
+        {
+            var appointmentsService = new AppointmentsService();
+            var result = appointmentsService.GetAppointment(visitId);
+            return result;
+        }
 
         [HttpPost]
         [Authorize(Roles = "User")]
@@ -106,5 +114,6 @@ namespace VetApi.Controllers
             }
             
         }
+        
     }
 }

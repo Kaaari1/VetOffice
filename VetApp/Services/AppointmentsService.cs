@@ -91,5 +91,19 @@ namespace VetApp.Services
             visit.is_active = false;
             DbContext.SaveChanges();
         }
+
+        public GetAppointmentResult GetAppointment(int visitId)
+        {
+            var visits = DbContext.Visit.Include(x => x.Doctor).Include(x => x.Animal).Include(x => x.User).FirstOrDefault(x => x.id_visit == visitId);
+                
+                return new GetAppointmentResult()
+                {
+                    PetId = visits.id_animal,
+                    DoctorId = visits.id_doctor,
+                    DateTime = visits.date.TimeOfDay.ToString(),
+                    Date = visits.date,
+                };
+
+        }
     }
 }
