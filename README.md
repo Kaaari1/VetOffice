@@ -16,10 +16,18 @@ Użytkownicy:
       Doktor:
          Login: meganfoc@gmail.com
          Hasło: Meggi88
+         
+       Doktor:
+         Login: mariuszalfred@gmail.com
+         Hasło: Alf584
        
       Użytkownik - Klient:
          Login: trevorfoot@gmail.com
          Hasło: Trev987
+      
+      Użytkownik - Klient:
+         Login: fredrykm@gmail.com
+         Hasło: Mustang1
          
 
 Opis działania aplikacji:
