@@ -123,9 +123,24 @@ export default {
         );
       }
     },
+    async date() {
+      this.dateTime = null;
+      if (!this.isPetDocAndDateSelected) {
+        this.dateTimes = await get(
+          `doctor/hours/${this.doctor}/${this.format(this.date)}`
+        );
+      }
+    },
+    async pet() {
+      this.dateTime = null;
+      if (!this.isPetDocAndDateSelected) {
+        this.dateTimes = await get(
+          `doctor/hours/${this.doctor}/${this.format(this.date)}`
+        );
+      }
+    },
     async isPetDocAndDateSelected(newValue) {
       if (!newValue) {
-        console.log(this.doctor);
         this.dateTimes = await get(
           `doctor/hours/${this.doctor}/${this.format(this.date)}`
         );

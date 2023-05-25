@@ -85,7 +85,7 @@ namespace VetApi.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Vet")]
+        [Authorize(Roles = "User")]
         [Route("addAppointment/{animalId}/{doctorId}/{date}/{time}")]
         public void AddAppointment(int animalId, int doctorId, DateTime date, string time)
         {

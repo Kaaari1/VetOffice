@@ -87,9 +87,6 @@ export default {
       return localStorage.role === "User";
     },
   },
-  async created() {
-    console.log("twojasamasd");
-  },
 };
 </script>
 

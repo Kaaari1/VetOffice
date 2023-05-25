@@ -147,7 +147,6 @@ export default {
       this.doctor = appointment.doctorId;
       this.doctors = appointment.doctors;
       this.dateTime = appointment.dateTime;
-      console.log(this.dateTime);
       this.date = appointment.date;
       if (!hasAccess) {
         this.$router.push("/");
