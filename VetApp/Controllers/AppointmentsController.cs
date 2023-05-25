@@ -14,7 +14,7 @@ namespace VetApi.Controllers
         [HttpGet]
         [Authorize(Roles = "User")]
         [Route("appointments")]
-        public List<UserAppointmentsResult> GetAppointmentsByUserId()
+        public List<UserAppointmentsResult> GetAppointmentsForUser()
         {
             var authService = new AuthService();
             int userId = authService.GetUserIdFromToken(HttpContext);
@@ -30,7 +30,7 @@ namespace VetApi.Controllers
         [HttpGet]
         [Authorize(Roles = "Vet")]
         [Route("appointments/vet")]
-        public List<VetAppointmentsResult> GetAppointmentsByVetId()
+        public List<VetAppointmentsResult> GetAppointmentsForVet()
         {
             var authService = new AuthService();
             int userId = authService.GetUserIdFromToken(HttpContext);
@@ -45,7 +45,7 @@ namespace VetApi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Vet")]
         [Route("has-access/{visitId}")]
         public bool HasAccess(int visitId)
         {
@@ -62,7 +62,7 @@ namespace VetApi.Controllers
 
         }
         [HttpGet]
-        [Route("appointments/{visitId}")]
+        [Route("appointment/{visitId}")]
         public GetAppointmentResult GetAppointment(int visitId)
         {
             var appointmentsService = new AppointmentsService();
@@ -71,18 +71,24 @@ namespace VetApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "User")]
-        [Route("appointments/{visitId}/{userId}/{dateTime}")]
-        public void UpdateVisitDateTime(DateTime dateTime, int visitId, int userId)
+        [Authorize(Roles = "User,Vet")]
+        [Route("appointment/update/{visitId}/{doctorId}/{date}/{time}")]
+        public void UpdateVisitDateTime(DateTime date, int visitId, int doctorId, string time)
         {
-            var appointmentsService = new AppointmentsService();
-            appointmentsService.UpdateVisitDateTime(dateTime, visitId, userId);
+            var authService = new AuthService();
+            int userId = authService.GetUserIdFromToken(HttpContext);
+
+            if (userId > 0)
+            {
+                var appointmentsService = new AppointmentsService();
+                appointmentsService.UpdateVisitDateTime(date, visitId, doctorId, time, userId);
+            }
         }
 
 
         [HttpPost]
-       
-        [Route("appointments/{animalId}/{doctorId}/{date}/{time}")]
+
+        [Route("addAppointment/{animalId}/{doctorId}/{date}/{time}")]
         public void AddAppointment(int animalId, int doctorId, DateTime date, string time)
         {
             var authService = new AuthService();
@@ -92,15 +98,14 @@ namespace VetApi.Controllers
             {
                 var appointmentsService = new AppointmentsService();
                 appointmentsService.AddAppointment(userId, animalId, doctorId, date, time);
-
             }
-            
+
         }
 
 
         [HttpPost]
-        [Authorize(Roles = "User")]
-        [Route("appointments/{visitId}")]
+        [Authorize(Roles = "User,Vet")]
+        [Route("appointments/remove/{visitId}")]
         public void RemoveAppointment(int visitId)
         {
             var authService = new AuthService();
@@ -112,8 +117,8 @@ namespace VetApi.Controllers
                 appointmentsService.RemoveAppointment(visitId, userId);
 
             }
-            
+
         }
-        
+
     }
 }

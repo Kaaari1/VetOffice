@@ -51,22 +51,27 @@ namespace VetApp.Services
             return result;
         }
 
-        public void UpdateVisitDateTime(DateTime dateTime, int visitId, int userId)
+        public void UpdateVisitDateTime(DateTime date, int visitId, int doctorId, string time, int userId)
         {
             var visit = DbContext.Visit.Include(x => x.Doctor)
                 .FirstOrDefault(x => x.id_visit == visitId && x.is_active && (x.Doctor.id_user == userId || x.id_user == userId));
             if (visit != null)
             {
-                visit.date = dateTime;
+                var timespan = TimeSpan.Parse(time);
+                visit.date = date.Date + timespan;
                 DbContext.SaveChanges();
             }
         }
 
         public bool HasAccess(int userId, int visitId)
         {
-            var asd = DbContext.Visit.Include(x => x.Doctor)
-                .Select(x => x.id_visit == visitId && x.is_active && (x.Doctor.id_user == userId || x.id_user == userId)).FirstOrDefault();
-            return asd;
+            var visit = DbContext.Visit.Include(x => x.Doctor).FirstOrDefault(x => x.id_visit == visitId);
+            if (visit != null)
+            {
+                return visit.id_user == userId || visit.Doctor.id_user == userId;
+
+            }
+            return false;
         }
 
         public void AddAppointment(int userId, int animalId, int doctorId, DateTime date, string time)
@@ -88,21 +93,50 @@ namespace VetApp.Services
         {
             var visit = DbContext.Visit.Include(x => x.Doctor)
                 .FirstOrDefault(x => x.id_visit == visitId && x.is_active && (x.Doctor.id_user == userId || x.id_user == userId));
-            visit.is_active = false;
-            DbContext.SaveChanges();
+            if (visit != null)
+            {
+                visit.is_active = false;
+                DbContext.SaveChanges();
+            };
         }
 
         public GetAppointmentResult GetAppointment(int visitId)
         {
             var visits = DbContext.Visit.Include(x => x.Doctor).Include(x => x.Animal).Include(x => x.User).FirstOrDefault(x => x.id_visit == visitId);
-                
-                return new GetAppointmentResult()
+            if (visits == null) return new GetAppointmentResult();
+            var pets = DbContext.Animal.Where(x => x.id_user == visits.id_user).ToList();
+            var doctors = DbContext.Doctor.Include(x => x.User).Where(x => x.is_active).ToList();
+
+            List<Pet> petsResult = new List<Pet>();
+            List<Doctor> doctorsResult = new List<Doctor>();
+
+            foreach (var pet in pets)
+            {
+                petsResult.Add(new Pet()
                 {
-                    PetId = visits.id_animal,
-                    DoctorId = visits.id_doctor,
-                    DateTime = visits.date.TimeOfDay.ToString(),
-                    Date = visits.date,
-                };
+                    PetId = pet.id_animal,
+                    PetName = pet.name_a
+                });
+            }
+
+            foreach (var doctor in doctors)
+            {
+                doctorsResult.Add(new Doctor()
+                {
+                    DoctorId = doctor.id_doctor,
+                    DoctorName = $"{doctor.User.name} {doctor.User.surname}"
+                });
+            }
+
+            return new GetAppointmentResult()
+            {
+                PetId = visits.id_animal,
+                DoctorId = visits.id_doctor,
+                DateTime = visits.date.TimeOfDay.ToString(),
+                Date = visits.date,
+                Pets = petsResult,
+                Doctors = doctorsResult
+            };
 
         }
     }

@@ -17,7 +17,9 @@
     >
   </DataTable>
   <div>
-    <Button v-if="isUser" @click="addNewAppointment">Add new appointment</Button>
+    <Button v-if="isUser" @click="addNewAppointment"
+      >Add new appointment</Button
+    >
   </div>
 </template>
 
@@ -26,7 +28,6 @@ import { get, post } from "../../services/http-service";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
-import Calendar from "primevue/calendar";
 export default {
   data() {
     return {
@@ -35,10 +36,15 @@ export default {
       modelValue: [],
     };
   },
-  components: { Column, DataTable, Button, Calendar },
+  components: { Column, DataTable, Button },
   methods: {
-    remove(visitId) {
-      post(`appointments/remove/${visitId}`);
+    async remove(visitId) {
+      await post(`appointments/remove/${visitId}`);
+      if (localStorage.getItem("role") === "Vet") {
+        this.appointments = await get(`appointments/vet`);
+      } else {
+        this.appointments = await get(`appointments`);
+      }
     },
     edit(visitId) {
       this.$router.push({

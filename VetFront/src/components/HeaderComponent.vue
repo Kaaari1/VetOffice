@@ -87,14 +87,6 @@ export default {
       return localStorage.role === "User";
     },
   },
-  watch: {
-    localStorage: {
-      handler(newValue, oldValue) {
-        console.log(newValue);
-      },
-      deep: true,
-    },
-  },
 };
 </script>
 

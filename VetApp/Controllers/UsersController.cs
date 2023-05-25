@@ -17,5 +17,23 @@ namespace VetApi.Controllers
             var result = usersService.Get();
             return result;
         }
+
+        [HttpGet]
+        [Route("doctors")]
+        public List<DoctorsResult> GetDoctors()
+        {
+            var doctorsService = new DoctorsService();
+            var result = doctorsService.Get();
+            return result;
+        }
+
+        [HttpGet]
+        [Route("doctor/hours/{doctorId}/{date}")]
+        public List<string> GetDoctorHours(int doctorId, DateTime date)
+        {
+            var doctorsService = new DoctorsService();
+            var result = doctorsService.GetDoctorHours(doctorId, date);
+            return result;
+        }
     }
 }

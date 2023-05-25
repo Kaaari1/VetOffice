@@ -1,10 +1,5 @@
 <template>
-  <DataTable
-    :value="pets"
-    tableStyle="min-width: 50rem"
-    paginator
-    :rows="5"
-  >
+  <DataTable :value="pets" tableStyle="min-width: 50rem" paginator :rows="5">
     <Column field="name" header="Animal Name"></Column>
     <Column field="animalType" header="Pet type"></Column>
     <Column field="birthDate" header="Date of birth"> </Column>
@@ -17,7 +12,6 @@ import { get } from "../../services/http-service";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
-import Calendar from "primevue/calendar";
 export default {
   data() {
     return {
@@ -31,10 +25,9 @@ export default {
       this.$router.push("/addNewPet");
     },
   },
-  components: { Column, DataTable, Button, Calendar },
+  components: { Column, DataTable, Button },
   async created() {
     this.pets = await get(`animals`);
-    console.log(this.pets);
   },
 };
 </script>

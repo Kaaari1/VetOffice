@@ -16,17 +16,20 @@
         optionValue="doctorId"
         placeholder="Doctor"
       />
-      <Calendar v-model="date" showButtonBar placeholder="Date" />
+      <Calendar
+        v-model="date"
+        showButtonBar
+        placeholder="Date"
+        :minDate="today"
+      />
       <Dropdown
         v-model="dateTime"
         :options="dateTimes"
-        optionLabel="time"
-        optionValue="time"
-        placeholder="Time"
+        :placeholder="dateTime"
         :disabled="isPetDocAndDateSelected"
       />
       <div>
-        <Button @click="addNewAppointment">Add new appointment</Button>
+        <Button @click="addAppointment">Add appointment</Button>
       </div>
     </div>
   </div>
@@ -48,6 +51,7 @@ export default {
       doctor: null,
       dateTime: null,
       date: null,
+      today: new Date(),
     };
   },
   components: {
@@ -56,16 +60,54 @@ export default {
     Calendar,
   },
   methods: {
-    async addNewAppointment() {
-      await post(
-        `addNewAppointment/${this.pet}/${this.doctor}/${this.dateTime}/${this.date}`
-      );
-      this.$router.push("/yourAppointments");
+    async addAppointment() {
+      if (this.dateTime && !this.isPetDocAndDateSelected) {
+        await post(
+          `addAppointment/${this.pet}/${this.doctor}/${this.format(
+            this.date
+          )}/${this.dateTime}`
+        );
+        this.$router.push("/yourAppointments");
+      }
     },
-  },
-  async created() {
-    this.pets = await get(`pets`);
-    this.doctors = await get(`doctors`);
+    format(
+      date,
+      includeTime,
+      dateSeparator = "-",
+      timeSeparator = ":",
+      dateTimeSeparator = " ",
+      reversed = true,
+      getMonthName = false
+    ) {
+      if (!date) return "";
+      try {
+        const day = ("0" + date.getDate()).slice(-2);
+        const month = getMonthName
+          ? I18n.t(monthNames[date.getMonth()])
+          : ("0" + (date.getMonth() + 1)).slice(-2);
+        const year = date.getFullYear();
+        let formattedDate;
+        if (reversed) {
+          formattedDate = `${year}${dateSeparator}${month}${dateSeparator}${day}`;
+        } else {
+          formattedDate = `${day}${dateSeparator}${month}${dateSeparator}${year}`;
+        }
+
+        if (includeTime) {
+          formattedDate += dateTimeSeparator + formatTime(date, timeSeparator);
+        }
+        return formattedDate;
+      } catch {
+        return date;
+      }
+    },
+    formatTime(date, timeSeparator = ":") {
+      if (!date) return "";
+      const hours = ("0" + date.getHours()).slice(-2);
+      const minutes = ("0" + date.getMinutes()).slice(-2);
+
+      return `${hours}${timeSeparator}${minutes}`;
+    },
   },
   computed: {
     isPetDocAndDateSelected() {
@@ -73,15 +115,26 @@ export default {
     },
   },
   watch: {
-    // whenever question changes, this function will run
-    doctor() {
+    async doctor() {
       this.dateTime = null;
-    },
-    async isPetDocAndDateSelected(newValue) {
-      if (newValue) {
-        this.dateTimes = await get(`doctor/${doctor}`);
+      if (!this.isPetDocAndDateSelected) {
+        this.dateTimes = await get(
+          `doctor/${this.doctor}/${this.format(this.date)}`
+        );
       }
     },
+    async isPetDocAndDateSelected(newValue) {
+      if (!newValue) {
+        console.log(this.doctor);
+        this.dateTimes = await get(
+          `doctor/hours/${this.doctor}/${this.format(this.date)}`
+        );
+      }
+    },
+  },
+  async created() {
+    this.pets = await get(`animals`);
+    this.doctors = await get(`doctors`);
   },
 };
 </script>
